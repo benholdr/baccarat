@@ -1,0 +1,123 @@
+Try AI directly in your favorite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI for $19.99 $9.99 for 2 months
+1
+100%
+Baccarat
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Baccarat Tracker</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#e0e0e0;padding:8px;max-width:500px;margin:0 auto}
+.header{background:#1a1a1a;padding:12px;border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+h1{font-size:18px;font-weight:600}
+.btn{padding:12px 16px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;min-height:48px}
+.btn-primary{background:#c41e3a;color:#fff}
+.btn-secondary{background:#2a2a2a;color:#e0e0e0;border:1px solid #444}
+.controls{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px}
+.input-group{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.input-group label{font-size:14px;min-width:80px}
+.input-group input{flex:1;padding:12px;border:1px solid #444;border-radius:8px;background:#1a1a1a;color:#e0e0e0;font-size:16px;min-height:48px}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;margin-left:8px}
+.badge-custom{background:#2563eb;color:#fff}
+.badge-auto{background:#444;color:#aaa}
+.grid-container{background:#1a1a1a;padding:8px;border-radius:8px;margin-bottom:8px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(20,24px);grid-template-rows:repeat(6,24px);gap:2px}
+.cell{border:1px solid #2a2a2a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px}
+.cell-b{background:#c41e3a;color:#fff}
+.cell-p{background:#2563eb;color:#fff}
+.cell-t{background:#16a34a;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.stat{background:#1a1a1a;padding:10px;border-radius:8px;text-align:center}
+.stat-label{font-size:11px;color:#888;margin-bottom:4px}
+.stat-value{font-size:18px;font-weight:700}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:#1a1a1a;padding:20px;border-radius:12px;width:90%;max-width:340px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Baccarat Tracker</h1>
+<button class="btn btn-primary" onclick="newShoe()">New Shoe</button>
+</div>
+<div class="input-group">
+<label>System:</label>
+<select id="system" style="flex:1;padding:12px;background:#1a1a1a;border:1px solid #444;border-radius:8px;color:#e0e0e0;min-height:48px;font-size:16px">
+<option value="flat">Flat</option>
+<option value="1326">1-3-2-6</option>
+<option value="martingale">Martingale</option>
+<option value="paroli">Paroli</option>
+</select>
+</div>
+<div class="input-group">
+<label>Base Bet:</label>
+<input type="number" id="baseBet" inputmode="decimal" min="1" value="10" onchange="updateBaseBet()">
+</div>
+<div class="input-group">
+<label>Next Bet:</label>
+<input type="number" id="nextBet" inputmode="decimal" min="1" value="10" onchange="setCustomBet()">
+<button class="btn btn-secondary" onclick="setAutoBet()">Auto</button>
+<span id="betMode" class="badge badge-auto">Auto</span>
+</div>
+<div class="controls">
+<button class="btn btn-secondary" onclick="addHand('B')">B</button>
+<button class="btn btn-secondary" onclick="addHand('P')">P</button>
+<button class="btn btn-secondary" onclick="addHand('NB')">NB</button>
+<button class="btn btn-secondary" onclick="addHand('NP')">NP</button>
+<button class="btn btn-secondary" onclick="addHand('T')">T</button>
+</div>
+<div class="grid-container">
+<div class="grid" id="grid"></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="stat-label">Banker</div><div class="stat-value" id="bCount">0</div></div>
+<div class="stat"><div class="stat-label">Player</div><div class="stat-value" id="pCount">0</div></div>
+<div class="stat"><div class="stat-label">Tie</div><div class="stat-value" id="tCount">0</div></div>
+<div class="stat"><div class="stat-label">B %</div><div class="stat-value" id="bPct">0%</div></div>
+<div class="stat"><div class="stat-label">P %</div><div class="stat-value" id="pPct">0%</div></div>
+<div class="stat"><div class="stat-label">Profit</div><div class="stat-value" id="profit">$0</div></div>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:8px">
+<button class="btn btn-secondary" style="flex:1" onclick="recordResult('W')">Win</button>
+<button class="btn btn-secondary" style="flex:1" onclick="recordResult('L')">Loss</button>
+<button class="btn btn-secondary" onclick="undo()">Undo</button>
+</div>
+<div id="confirmModal" class="modal">
+<div class="modal-content">
+<h3>Clear all hands and start new shoe?</h3>
+<div style="display:flex;gap:8px;margin-top:16px">
+<button class="btn btn-secondary" style="flex:1" onclick="closeModal('confirmModal')">Cancel</button>
+<button class="btn btn-primary" style="flex:1" onclick="confirmNewShoe()">Confirm</button>
+</div>
+</div>
+</div>
+<script>
+let hands=[],grid=[],col=0,row=0,lastResult=null,showScores=false,isCustomBet=false;
+let baseBet=10,nextBet=10,profit=0,system='flat',step=1;
+loadState();renderGrid();updateStats();
+function addHand(t){let h={result:t[0],time:Date.now()};if(t=='NB'||t=='NP')h.natural=true;if(t=='T')h.result='T';hands.push(h);addToGrid(h);saveState();renderGrid();updateStats();}
+function addToGrid(h){let r=h.result;if(r=='T')return;if(r!=lastResult&&lastResult){col++;row=0;}if(!grid[col])grid[col]=[];grid[col][row]={result:r,natural:h.natural};lastResult=r;row++;if(row>=6){col++;row=0;}}
+function renderGrid(){let g=document.getElementById('grid');g.innerHTML='';for(let c=0;c<20;c++){for(let r=0;r<6;r++){let cell=document.createElement('div');cell.className='cell';if(grid[c]&&grid[c][r]){let h=grid[c][r];cell.classList.add('cell-'+h.result.toLowerCase());cell.innerHTML=h.result;}g.appendChild(cell);}}}
+function updateStats(){let b=0,p=0,t=0;hands.forEach(h=>{if(h.result=='B')b++;else if(h.result=='P')p++;else t++;});let tot=b+p;document.getElementById('bCount').textContent=b;document.getElementById('pCount').textContent=p;document.getElementById('tCount').textContent=t;document.getElementById('bPct').textContent=tot?Math.round(b/tot*100)+'%':'0%';document.getElementById('pPct').textContent=tot?Math.round(p/tot*100)+'%':'0%';document.getElementById('profit').textContent='$'+profit;document.getElementById('profit').style.color=profit>=0?'#16a34a':'#dc2626';}
+function updateBaseBet(){let v=parseFloat(document.getElementById('baseBet').value);if(v<1||isNaN(v)){document.getElementById('baseBet').value=baseBet;return;}if(step>1&&confirm('Reset progression to step 1 with new base?')){step=1;profit=0;}baseBet=v;calcNextBet();saveState();}
+function setCustomBet(){let v=parseFloat(document.getElementById('nextBet').value);if(v<1||isNaN(v)){document.getElementById('nextBet').value=nextBet;return;}nextBet=v;isCustomBet=true;document.getElementById('betMode').textContent='Custom';document.getElementById('betMode').className='badge badge-custom';saveState();}
+function setAutoBet(){isCustomBet=false;calcNextBet();document.getElementById('betMode').textContent='Auto';document.getElementById('betMode').className='badge badge-auto';saveState();}
+function calcNextBet(){if(isCustomBet)return;if(system=='flat')nextBet=baseBet;else if(system=='1326')nextBet=baseBet*[1,3,2,6][(step-1)%4];else if(system=='martingale')nextBet=baseBet*Math.pow(2,step-1);else if(system=='paroli')nextBet=baseBet*step;document.getElementById('nextBet').value=nextBet;}
+function recordResult(res){if(res=='W'){profit+=nextBet;if(system=='1326')step=step>=4?1:step+1;else if(system=='martingale')step=1;else if(system=='paroli')step++;}else{profit-=nextBet;if(system=='1326')step=1;else if(system=='martingale')step++;else if(system=='paroli')step=1;}isCustomBet=false;setAutoBet();updateStats();saveState();}
+function undo(){if(!hands.length)return;hands.pop();rebuildGrid();renderGrid();updateStats();saveState();}
+function rebuildGrid(){grid=[];col=0;row=0;lastResult=null;hands.forEach(h=>addToGrid(h));}
+function newShoe(){showModal('confirmModal');}
+function confirmNewShoe(){hands=[];grid=[];col=0;row=0;lastResult=null;profit=0;step=1;isCustomBet=false;setAutoBet();renderGrid();updateStats();saveState();closeModal('confirmModal');}
+function showModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function saveState(){localStorage.setItem('baccarat',JSON.stringify({hands,grid,col,row,lastResult,baseBet,nextBet,profit,system,step,isCustomBet}));}
+function loadState(){let s=localStorage.getItem('baccarat');if(!s)return;let d=JSON.parse(s);Object.assign(window,d);document.getElementById('baseBet').value=baseBet;document.getElementById('nextBet').value=nextBet;document.getElementById('system').value=system;if(isCustomBet){document.getElementById('betMode').textContent='Custom';document.getElementById('betMode').className='badge badge-custom';}rebuildGrid();}
+document.getElementById('system').onchange=function(){system=this.value;step=1;isCustomBet=false;setAutoBet();saveState();};
+</script>
+</body>
+</html>
