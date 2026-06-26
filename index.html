@@ -31,13 +31,10 @@
 
     <!-- Mobile Header & Tab Navigation Combined -->
     <header class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 shadow-md">
-        <div class="p-3 flex justify-between items-center max-w-xl mx-auto">
+        <div class="p-3.5 flex justify-center items-center max-w-xl mx-auto">
             <h1 class="text-sm font-bold tracking-wider text-yellow-500 uppercase">
                 ♦️ Baccarat Tracker
             </h1>
-            <button onclick="resetGameOnly()" class="bg-red-600/90 active:bg-red-700 text-white font-medium py-1 px-2.5 rounded text-[11px] shadow">
-                Reset Shoe
-            </button>
         </div>
         
         <!-- Native Touch Tabs -->
@@ -110,31 +107,13 @@
                 </div>
             </div>
 
-            <!-- Collapsible Strategy Validation Card -->
-            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
-                <button onclick="toggleCollapse('collapse-strategy')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
-                    <div class="text-left">
-                        <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider inline-block">System Strategy Outcome</h3>
-                        <span class="text-[11px] text-yellow-500 font-medium ml-2">Target Bet: <span id="suggested-bet-badge" class="font-bold underline">$10</span></span>
-                    </div>
-                    <span id="collapse-strategy-icon" class="text-xs text-gray-500 font-bold">▼</span>
-                </button>
-                <div id="collapse-strategy" class="p-4 pt-0 space-y-3">
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="recordStrategyOnlyOutcome(true)" class="bg-emerald-600 active:bg-emerald-700 text-white font-black py-3.5 rounded-xl text-sm uppercase tracking-widest shadow-md">
-                            👍 Win
-                        </button>
-                        <button onclick="recordStrategyOnlyOutcome(false)" class="bg-rose-600 active:bg-rose-700 text-white font-black py-3.5 rounded-xl text-sm uppercase tracking-widest shadow-md">
-                            👎 Loss
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Detailed Dynamic Hand Score Form Panel -->
+            <!-- UNIFIED Score Input Tracker & Strategy Resolution Form Panel -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
                 <button onclick="toggleCollapse('collapse-score-form')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
-                    <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Advanced Score Input Tracker</h3>
+                    <div>
+                        <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider inline-block">Advanced Input & Strategy Verification</h3>
+                        <span class="text-[11px] text-yellow-500 font-medium ml-2">Target Bet: <span id="suggested-bet-badge" class="font-bold underline">$10</span></span>
+                    </div>
                     <span id="collapse-score-form-icon" class="text-xs text-gray-500 font-bold">▼</span>
                 </button>
                 <div id="collapse-score-form" class="p-4 pt-0 space-y-3">
@@ -183,13 +162,26 @@
                         </div>
                     </div>
 
-                    <button onclick="submitScoreCalculatedHand()" class="w-full bg-gradient-to-r from-yellow-600 to-amber-500 active:from-yellow-700 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider shadow">
+                    <button onclick="submitScoreCalculatedHand()" class="w-full bg-gradient-to-r from-yellow-600 to-amber-500 active:from-yellow-700 text-gray-950 font-black py-2 rounded-xl text-xs uppercase tracking-wider shadow">
                         Process & Commit Hand Scores
                     </button>
+
+                    <!-- Embedded Strategy Outcomes Block -->
+                    <div class="border-t border-gray-700/60 pt-3">
+                        <span class="text-[9px] text-gray-400 block mb-1.5 font-bold uppercase text-center">Record Ledger System Outcome</span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="recordStrategyOnlyOutcome(true)" class="bg-emerald-600 active:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-widest shadow-md">
+                                👍 System Win
+                            </button>
+                            <button onclick="recordStrategyOnlyOutcome(false)" class="bg-rose-600 active:bg-rose-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-widest shadow-md">
+                                👎 System Loss
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- NEW SECTION: History Log List to Review Values from Previous Played Hands -->
+            <!-- History Log List to Review Values from Previous Played Hands -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
                 <button onclick="toggleCollapse('collapse-history-log')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
                     <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Shoe History Log</h3>
@@ -201,10 +193,13 @@
                 </div>
             </div>
 
-            <!-- Undo Action Area -->
-            <div class="text-center pt-1">
-                <button onclick="undoLastHand()" class="text-xs text-gray-500 active:text-white underline py-2 px-4">
-                    Undo Last Step
+            <!-- High-Accessibility Global Actions Area -->
+            <div class="pt-2 grid grid-cols-2 gap-3">
+                <button onclick="undoLastHand()" class="w-full bg-gray-700 hover:bg-gray-600 active:bg-gray-550 text-gray-200 font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider shadow-lg transition-colors border border-gray-600">
+                    ↩️ Undo Last Step
+                </button>
+                <button onclick="resetGameOnly()" class="w-full bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider shadow-lg transition-colors">
+                    ⚠️ Reset Shoe
                 </button>
             </div>
         </div>
@@ -281,7 +276,7 @@
         // Core Storage States
         let handHistory = [];       
         let cashEffects = [];       
-        let rawScoreArchive = []; // Meta-data storage object to preserve raw key values (P-score vs B-score)
+        let rawScoreArchive = []; 
         
         // Ledger Balances Variables
         let baseBet = 10;
@@ -365,11 +360,9 @@
                 determinedToken = (b === 8 || b === 9) ? 'BN' : 'B';
             }
 
-            // Track detailed scores inside meta archive log
             rawScoreArchive.push({ pScore: p, bScore: b });
             recordRoadTrend(determinedToken);
 
-            // Reset UI
             selectedPlayerScore = null;
             selectedBankerScore = null;
             document.getElementById('form-p-val').textContent = "-";
@@ -418,7 +411,6 @@
 
         function recordRoadTrend(outcome) {
             handHistory.push(outcome);
-            // If it was added manually via quick track, preserve formatting placeholders inside matching index
             if(rawScoreArchive.length < handHistory.filter(x => x !== 'SO_W' && x !== 'SO_L').length) {
                 rawScoreArchive.push({ pScore: '?', bScore: '?' });
             }
@@ -512,6 +504,7 @@
             }
         }
 
+        // Layout updates logic bounds
         function updateMasterUI(updateBankrollInputField = true) {
             grossWon = 0; grossLost = 0; let netResult = 0;
             cashEffects.forEach(amt => {
@@ -558,7 +551,6 @@
             renderHistoryLogList();
         }
 
-        // Renders previous played rounds with formatting values cleanly
         function renderHistoryLogList() {
             historyLogFeed.innerHTML = '';
             let trendCounter = 0;
@@ -584,7 +576,6 @@
                 else if (token === 'BN') { identityLabel = "Banker Natural"; colorClass = "text-red-400 font-bold tracking-wide"; }
                 else if (token === 'T') { identityLabel = "Tie Round"; colorClass = "text-green-400 font-semibold"; }
 
-                // Check if a strategy wager was evaluated immediately after this trend round
                 let strategyEvaluationText = `<span class="text-gray-500 italic">No bet executed</span>`;
                 if(handHistory[i+1] === 'SO_W') {
                     strategyEvaluationText = `<span class="text-emerald-400 font-bold">✓ System Win</span>`;
