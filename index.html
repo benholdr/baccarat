@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baccarat Big Road Tracker & Strategy Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Baccarat Pro Mobile Tracker</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .custom-scrollbar::-webkit-scrollbar {
-            height: 6px;
+            height: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background-color: #4b5563;
-            border-radius: 3px;
+            border-radius: 2px;
         }
-        /* Remove arrows/spinners from number inputs */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -23,214 +22,266 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col justify-between">
 
-    <!-- Header -->
-    <header class="bg-gray-800 border-b border-gray-700 p-4 shadow-md">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wider text-yellow-500 uppercase flex items-center gap-2">
-                ♦️ Baccarat Strategy Tracker ♦️
+    <!-- Mobile Header & Tab Navigation Combined -->
+    <header class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 shadow-md">
+        <div class="p-3 flex justify-between items-center max-w-xl mx-auto">
+            <h1 class="text-sm font-bold tracking-wider text-yellow-500 uppercase">
+                ♦️ Baccarat Tracker
             </h1>
-            <button onclick="resetGameOnly()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded transition duration-200 text-sm shadow">
-                Reset Shoe & Stats Only
+            <button onclick="resetGameOnly()" class="bg-red-600/90 active:bg-red-700 text-white font-medium py-1 px-2.5 rounded text-[11px] shadow">
+                Reset Shoe
+            </button>
+        </div>
+        
+        <!-- Native Touch Tabs -->
+        <div class="flex border-t border-gray-700 max-w-xl mx-auto bg-gray-850">
+            <button id="tab-tracker-btn" onclick="switchTab('tracker')" class="w-1/2 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 border-yellow-500 text-yellow-500 transition-all">
+                Road & Tracker
+            </button>
+            <button id="tab-ledger-btn" onclick="switchTab('ledger')" class="w-1/2 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-400 transition-all">
+                Strategy & Ledger
             </button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto p-4 w-full flex-grow grid grid-cols-1 gap-6">
+    <!-- Main Mobile Container -->
+    <main class="max-w-xl mx-auto p-3 w-full flex-grow space-y-3 pb-8">
         
-        <!-- SECTION 1: Financial Dashboard & Strategy Configuration (Two-Column Layout) -->
-        <section class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <!-- ================= VIEW 1: TRACKER & INPUTS ================= -->
+        <div id="view-tracker" class="space-y-3">
             
-            <!-- Strategy Configuration Form (Takes 2 Columns) -->
-            <div class="bg-gray-800 p-5 rounded-xl border border-gray-700 shadow-lg flex flex-col justify-between space-y-4 lg:col-span-2">
-                <div>
-                    <h2 class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Strategy Control Form</h2>
-                    <div class="space-y-3">
+            <!-- COMBINED CONTAINER: Big Road Display & Telemetry Live Stats Banner -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-sm overflow-hidden">
+                <button onclick="toggleCollapse('collapse-big-road')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors border-b border-gray-700/50">
+                    <h2 class="text-gray-400 text-[10px] font-semibold uppercase tracking-wider">Big Road Matrix & Telemetry</h2>
+                    <span id="collapse-big-road-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-big-road" class="p-3 space-y-3 transition-all">
+                    <!-- Horizontally Scrollable Matrix -->
+                    <div class="overflow-x-auto custom-scrollbar pb-1">
+                        <div id="big-road" class="grid grid-rows-6 grid-flow-col gap-1 justify-start min-w-max h-[156px]">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    <!-- Unified Live Counter Banner Block -->
+                    <div class="bg-gray-900/60 p-2 rounded-lg border border-gray-700/80 flex justify-between items-center text-[11px] text-gray-400">
+                        <div>P: <span id="count-player" class="text-blue-400 font-bold">0</span> (<span id="pct-player" class="text-blue-300 font-medium">0%</span>)</div>
+                        <div>B: <span id="count-banker" class="text-red-400 font-bold">0</span> (<span id="pct-banker" class="text-red-300 font-medium">0%</span>)</div>
+                        <div>T: <span id="count-tie" class="text-green-400 font-bold">0</span></div>
+                        <div class="text-[10px] text-gray-500 border-l border-gray-700 pl-2">Total: <span id="count-total" class="text-gray-300 font-medium">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collapsible Road Logging Interface Card -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
+                <button onclick="toggleCollapse('collapse-quick-track')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
+                    <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Quick Track (Visual Only)</h3>
+                    <span id="collapse-quick-track-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-quick-track" class="p-4 pt-0 space-y-3">
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="recordRoadTrend('P')" class="bg-blue-600 active:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs tracking-wide shadow-md">
+                            Player
+                        </button>
+                        <button onclick="recordRoadTrend('B')" class="bg-red-600 active:bg-red-700 text-white font-bold py-3 rounded-xl text-xs tracking-wide shadow-md">
+                            Banker
+                        </button>
+                        <button onclick="recordRoadTrend('T')" class="bg-green-600 active:bg-green-700 text-white font-bold py-3 rounded-xl text-xs tracking-wide shadow-md">
+                            Tie
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="recordRoadTrend('PN')" class="bg-gradient-to-r from-blue-700 to-cyan-600 active:from-blue-800 text-white font-semibold py-2 rounded-lg text-[11px] uppercase tracking-wide">
+                            Natural Player
+                        </button>
+                        <button onclick="recordRoadTrend('BN')" class="bg-gradient-to-r from-red-700 to-orange-600 active:from-red-800 text-white font-semibold py-2 rounded-lg text-[11px] uppercase tracking-wide">
+                            Natural Banker
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collapsible Strategy Validation Card -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
+                <button onclick="toggleCollapse('collapse-strategy')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
+                    <div class="text-left">
+                        <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider inline-block">System Strategy Outcome</h3>
+                        <span class="text-[11px] text-yellow-500 font-medium ml-2">Target Bet: <span id="suggested-bet-badge" class="font-bold underline">$10</span></span>
+                    </div>
+                    <span id="collapse-strategy-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-strategy" class="p-4 pt-0 space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="recordStrategyOnlyOutcome(true)" class="bg-emerald-600 active:bg-emerald-700 text-white font-black py-3.5 rounded-xl text-sm uppercase tracking-widest shadow-md">
+                            👍 Win
+                        </button>
+                        <button onclick="recordStrategyOnlyOutcome(false)" class="bg-rose-600 active:bg-rose-700 text-white font-black py-3.5 rounded-xl text-sm uppercase tracking-widest shadow-md">
+                            👎 Loss
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Dynamic Hand Score Form Panel -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
+                <button onclick="toggleCollapse('collapse-score-form')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
+                    <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Advanced Score Input Tracker</h3>
+                    <span id="collapse-score-form-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-score-form" class="p-4 pt-0 space-y-3">
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-gray-900/60 p-2 rounded-lg border border-blue-900/30">
+                            <span class="text-[10px] uppercase text-blue-400 block font-semibold">Player Score</span>
+                            <span id="form-p-val" class="text-2xl font-black text-blue-500">-</span>
+                        </div>
+                        <div class="bg-gray-900/60 p-2 rounded-lg border border-red-900/30">
+                            <span class="text-[10px] uppercase text-red-400 block font-semibold">Banker Score</span>
+                            <span id="form-b-val" class="text-2xl font-black text-red-500">-</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-center">
                         <div>
-                            <label class="block text-xs text-gray-400 font-medium mb-1 uppercase">Betting Strategy</label>
-                            <select id="strategy-select" onchange="onStrategyChange()" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-yellow-500">
-                                <option value="flat">Flat Betting</option>
-                                <option value="1-3-2-6">1-3-2-6 Progression</option>
-                                <option value="martingale">Martingale (Anti-Loss)</option>
-                                <option value="paroli">Paroli (Win Streak +1)</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Combined Base Bet and Suggested Bet Row -->
-                        <div class="grid grid-cols-2 gap-3 pt-1">
-                            <div>
-                                <label class="block text-xs text-gray-400 font-medium mb-1 uppercase">Base Bet ($)</label>
-                                <input id="base-bet-input" type="number" value="10" min="1" oninput="onBaseBetInput()" class="w-full h-[46px] bg-gray-700 border border-gray-600 rounded-lg p-2 text-base font-semibold text-white focus:outline-none focus:border-yellow-500" />
-                            </div>
-                            <div class="bg-gray-900/60 border border-gray-700/80 rounded-lg p-2 flex flex-col justify-center text-center">
-                                <span class="block text-[10px] text-yellow-500 font-bold uppercase tracking-wider">Suggested Bet</span>
-                                <span id="suggested-bet-display" class="text-xl font-black text-white leading-tight mt-0.5">$10</span>
+                            <span class="text-[9px] text-gray-400 block mb-1 font-bold uppercase">Assign Player</span>
+                            <div class="grid grid-cols-5 gap-1">
+                                <button onclick="setScoreKey('P', 0)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">0</button>
+                                <button onclick="setScoreKey('P', 1)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">1</button>
+                                <button onclick="setScoreKey('P', 2)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">2</button>
+                                <button onclick="setScoreKey('P', 3)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">3</button>
+                                <button onclick="setScoreKey('P', 4)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">4</button>
+                                <button onclick="setScoreKey('P', 5)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">5</button>
+                                <button onclick="setScoreKey('P', 6)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">6</button>
+                                <button onclick="setScoreKey('P', 7)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">7</button>
+                                <button onclick="setScoreKey('P', 8)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">8</button>
+                                <button onclick="setScoreKey('P', 9)" class="score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-blue-600">9</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Strategy Hint / Status Info -->
-                <div class="p-2 bg-gray-900/40 border border-gray-700/60 rounded text-xs text-gray-400">
-                    <span class="font-semibold text-yellow-500">System Status:</span>
-                    <span id="strategy-status-text">Flat betting active. Target keeps pace with base unit.</span>
-                </div>
-            </div>
 
-            <!-- Bankroll Ledgers Panel (Takes 3 Columns) -->
-            <div class="bg-gray-800 p-5 rounded-xl border border-gray-700 shadow-lg lg:col-span-3">
-                <h2 class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Financial Overview Ledger</h2>
-                <div class="grid grid-cols-2 gap-3">
-                    <!-- EDITABLE CURRENT BANKROLL FIELD -->
-                    <div class="bg-gray-900/50 p-2.5 rounded-lg border border-gray-700 focus-within:border-yellow-500 transition-all">
-                        <label for="editable-bankroll-input" class="block text-[11px] text-gray-400 uppercase cursor-pointer">Current Bankroll ($)</label>
-                        <input id="editable-bankroll-input" type="number" value="1000" min="0" oninput="onBankrollDirectEdit()" class="w-full bg-transparent font-bold text-xl text-emerald-400 focus:outline-none border-none p-0 mt-0.5" />
-                    </div>
-                    <div class="bg-gray-900/50 p-3 rounded-lg border border-gray-700">
-                        <span class="block text-[11px] text-gray-400 uppercase">Net Balance</span>
-                        <span id="ledger-net" class="text-xl font-bold text-gray-200">$0</span>
-                    </div>
-                    <div class="bg-emerald-950/20 p-3 rounded-lg border border-emerald-900/40">
-                        <span class="block text-[11px] text-emerald-400 uppercase">Gross Amount Won</span>
-                        <span id="ledger-won" class="text-lg font-bold text-emerald-500">$0</span>
-                    </div>
-                    <div class="bg-rose-950/20 p-3 rounded-lg border border-rose-900/40">
-                        <span class="block text-[11px] text-rose-400 uppercase">Gross Amount Lost</span>
-                        <span id="ledger-lost" class="text-lg font-bold text-rose-500">$0</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: Win Counts & Matrix Trends Breakdown -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Win Counts Panel -->
-            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-lg">
-                <h2 class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Win Count Summary</h2>
-                <div class="grid grid-cols-3 gap-2 text-center">
-                    <div class="bg-blue-950/40 p-2 rounded-lg border border-blue-900/60">
-                        <span class="block text-[11px] text-blue-400 uppercase">Player</span>
-                        <span id="count-player" class="text-xl font-bold text-blue-500">0</span>
-                    </div>
-                    <div class="bg-red-950/40 p-2 rounded-lg border border-red-900/60">
-                        <span class="block text-[11px] text-red-400 uppercase">Banker</span>
-                        <span id="count-banker" class="text-xl font-bold text-red-500">0</span>
-                    </div>
-                    <div class="bg-green-950/40 p-2 rounded-lg border border-green-900/60">
-                        <span class="block text-[11px] text-green-400 uppercase">Tie</span>
-                        <span id="count-tie" class="text-xl font-bold text-green-500">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Percentages Panel -->
-            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-lg flex flex-col justify-center">
-                <div class="space-y-2">
-                    <div>
-                        <div class="flex justify-between text-xs mb-0.5">
-                            <span class="text-blue-400 font-medium">Player %</span>
-                            <span id="pct-player" class="font-bold text-blue-400">0%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden">
-                            <div id="bar-player" class="bg-blue-500 h-full transition-all duration-300" style="width: 0%"></div>
+                        <div>
+                            <span class="text-[9px] text-gray-400 block mb-1 font-bold uppercase">Assign Banker</span>
+                            <div class="grid grid-cols-5 gap-1">
+                                <button onclick="setScoreKey('B', 0)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">0</button>
+                                <button onclick="setScoreKey('B', 1)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">1</button>
+                                <button onclick="setScoreKey('B', 2)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">2</button>
+                                <button onclick="setScoreKey('B', 3)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">3</button>
+                                <button onclick="setScoreKey('B', 4)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">4</button>
+                                <button onclick="setScoreKey('B', 5)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">5</button>
+                                <button onclick="setScoreKey('B', 6)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">6</button>
+                                <button onclick="setScoreKey('B', 7)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">7</button>
+                                <button onclick="setScoreKey('B', 8)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">8</button>
+                                <button onclick="setScoreKey('B', 9)" class="score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs active:bg-red-600">9</button>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-0.5">
-                            <span class="text-red-400 font-medium">Banker %</span>
-                            <span id="pct-banker" class="font-bold text-red-400">0%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden">
-                            <div id="bar-banker" class="bg-red-500 h-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-right text-[10px] text-gray-500 mt-1.5">
-                    Total Hands Monitored: <span id="count-total" class="font-bold text-gray-300">0</span>
-                </div>
-            </div>
-        </section>
 
-        <!-- SECTION 3: Big Road Table display layout -->
-        <section class="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-lg">
-            <h2 class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Big Road (Column Switch on Trend Change)</h2>
-            <div class="overflow-x-auto custom-scrollbar pb-2">
-                <div id="big-road" class="grid grid-rows-6 grid-flow-col gap-1.5 justify-start min-w-max h-[210px]">
-                    <!-- Rows rendered via loop -->
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: Interactive Input Execution Console -->
-        <section class="bg-gray-800 p-5 rounded-xl border border-gray-700 shadow-lg max-w-2xl mx-auto w-full space-y-5">
-            
-            <!-- Standard Board Layout Entries -->
-            <div>
-                <h3 class="text-gray-400 text-[11px] font-bold uppercase tracking-wider text-center mb-2">Record Road Trend (Visual Track Only)</h3>
-                <div class="grid grid-cols-3 gap-4 mb-3">
-                    <button onclick="recordRoadTrend('P')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md transform active:scale-95 transition-all text-sm">
-                        Player Win
-                    </button>
-                    <button onclick="recordRoadTrend('B')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-md transform active:scale-95 transition-all text-sm">
-                        Banker Win
-                    </button>
-                    <button onclick="recordRoadTrend('T')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md transform active:scale-95 transition-all text-sm">
-                        Tie Round
-                    </button>
-                </div>
-
-                <!-- Naturals Sub-triggers -->
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="recordRoadTrend('PN')" class="bg-gradient-to-r from-blue-700 to-cyan-600 hover:from-blue-800 hover:to-cyan-700 text-white font-semibold py-2 rounded-lg shadow transform active:scale-95 transition-all text-xs uppercase tracking-wide">
-                        Natural Player Win
-                    </button>
-                    <button onclick="recordRoadTrend('BN')" class="bg-gradient-to-r from-red-700 to-orange-600 hover:from-red-800 hover:to-orange-700 text-white font-semibold py-2 rounded-lg shadow transform active:scale-95 transition-all text-xs uppercase tracking-wide">
-                        Natural Banker Win
+                    <button onclick="submitScoreCalculatedHand()" class="w-full bg-gradient-to-r from-yellow-600 to-amber-500 active:from-yellow-700 text-gray-950 font-black py-2.5 rounded-xl text-xs uppercase tracking-wider shadow">
+                        Process & Commit Hand Scores
                     </button>
                 </div>
             </div>
 
-            <div class="relative flex py-1 items-center">
-                <div class="flex-grow border-t border-gray-700"></div>
-                <span class="flex-shrink mx-4 text-gray-500 text-[10px] font-bold uppercase tracking-widest">Strategy Evaluation Matrix</span>
-                <div class="flex-grow border-t border-gray-700"></div>
-            </div>
-
-            <!-- Strategy Engine Win/Loss Row -->
-            <div>
-                <h3 class="text-gray-400 text-[11px] font-bold uppercase tracking-wider text-center mb-2">Bet Outcome (Affects Bankroll & Ledger Balance)</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="recordStrategyOnlyOutcome(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-md transform active:scale-95 transition-all text-base uppercase tracking-wider">
-                        👍 Win
-                    </button>
-                    <button onclick="recordStrategyOnlyOutcome(false)" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-md transform active:scale-95 transition-all text-base uppercase tracking-wider">
-                        👎 Loss
-                    </button>
+            <!-- NEW SECTION: History Log List to Review Values from Previous Played Hands -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden">
+                <button onclick="toggleCollapse('collapse-history-log')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
+                    <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Shoe History Log</h3>
+                    <span id="collapse-history-log-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-history-log" class="p-3 pt-0 max-h-[220px] overflow-y-auto custom-scrollbar space-y-1.5 text-xs">
+                    <p class="text-gray-500 text-[11px] italic text-center py-2" id="empty-log-msg">No recorded rounds in this shoe yet.</p>
+                    <div id="history-log-feed" class="space-y-1"></div>
                 </div>
             </div>
 
-            <div class="text-center pt-2 border-t border-gray-700/60">
-                <button onclick="undoLastHand()" class="text-xs text-gray-500 hover:text-white underline transition">
-                    Undo Last Action
+            <!-- Undo Action Area -->
+            <div class="text-center pt-1">
+                <button onclick="undoLastHand()" class="text-xs text-gray-500 active:text-white underline py-2 px-4">
+                    Undo Last Step
                 </button>
             </div>
-        </section>
+        </div>
+
+        <!-- ================= VIEW 2: STRATEGY & FINANCIALS ================= -->
+        <div id="view-ledger" class="hidden space-y-3">
+            
+            <!-- Collapsible Strategy Selection Configuration Block -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-sm overflow-hidden">
+                <button onclick="toggleCollapse('collapse-sys-params')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
+                    <h2 class="text-gray-400 text-[10px] font-semibold uppercase tracking-wider">System Parameters</h2>
+                    <span id="collapse-sys-params-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-sys-params" class="p-4 pt-0 space-y-3">
+                    <div>
+                        <label class="block text-[10px] text-gray-400 uppercase font-medium mb-1">Bet Strategy Pattern</label>
+                        <select id="strategy-select" onchange="onStrategyChange()" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-yellow-500">
+                            <option value="flat">Flat Betting</option>
+                            <option value="1-3-2-6">1-3-2-6 Progression</option>
+                            <option value="martingale">Martingale (Anti-Loss)</option>
+                            <option value="paroli">Paroli (Win Streak +1)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase font-medium mb-1">Base Unit ($)</label>
+                            <input id="base-bet-input" type="number" value="10" min="1" oninput="onBaseBetInput()" class="w-full h-[40px] bg-gray-700 border border-gray-600 rounded-lg p-2 text-xs font-semibold text-white focus:outline-none" />
+                        </div>
+                        <div class="bg-gray-900/60 border border-gray-700 rounded-lg p-1 flex flex-col justify-center text-center">
+                            <span class="text-[9px] text-yellow-500 font-bold uppercase tracking-wide">Next Suggested</span>
+                            <span id="suggested-bet-display" class="text-base font-black text-white mt-0.5">$10</span>
+                        </div>
+                    </div>
+
+                    <div class="p-2 bg-gray-900/40 border border-gray-700/60 rounded text-[11px] text-gray-400">
+                        <span id="strategy-status-text">Flat betting active. Target keeps pace with base unit.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collapsible Ledger Balances Display Grid -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-sm overflow-hidden">
+                <button onclick="toggleCollapse('collapse-ledger')" class="w-full p-3 flex justify-between items-center bg-gray-800/80 hover:bg-gray-700/50 transition-colors">
+                    <h2 class="text-gray-400 text-[10px] font-semibold uppercase tracking-wider">Financial Performance Ledger</h2>
+                    <span id="collapse-ledger-icon" class="text-xs text-gray-500 font-bold">▼</span>
+                </button>
+                <div id="collapse-ledger" class="p-4 pt-0 space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-gray-900/50 p-2.5 rounded-lg border border-gray-700">
+                            <label class="block text-[9px] text-gray-400 uppercase">Tap to Edit Bankroll ($)</label>
+                            <input id="editable-bankroll-input" type="number" value="1000" min="0" oninput="onBankrollDirectEdit()" class="w-full bg-transparent font-bold text-base text-emerald-400 focus:outline-none p-0 mt-0.5" />
+                        </div>
+                        <div class="bg-gray-900/50 p-2.5 rounded-lg border border-gray-700 flex flex-col justify-center">
+                            <span class="text-[9px] text-gray-400 uppercase leading-none">Net Session Balance</span>
+                            <span id="ledger-net" class="text-base font-bold text-gray-200 mt-1">$0</span>
+                        </div>
+                        <div class="bg-emerald-950/20 p-2.5 rounded-lg border border-emerald-900/30 flex flex-col justify-center">
+                            <span class="text-[9px] text-emerald-400 uppercase leading-none">Gross Profit Won</span>
+                            <span id="ledger-won" class="text-sm font-bold text-emerald-500 mt-1">$0</span>
+                        </div>
+                        <div class="bg-rose-950/20 p-2.5 rounded-lg border border-rose-900/30 flex flex-col justify-center">
+                            <span class="text-[9px] text-rose-400 uppercase leading-none">Gross Loss Amount</span>
+                            <span id="ledger-lost" class="text-sm font-bold text-rose-500 mt-1">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="text-center py-4 text-xs text-gray-600 border-t border-gray-800">
-        Baccarat Pro Strategy Suite • Adaptive Single Page Framework
-    </footer>
-
-    <!-- Script Architecture Logic -->
     <script>
         // Core Storage States
-        let handHistory = [];       // Visual matrix trends log
-        let cashEffects = [];       // Written to by Win/Loss buttons
+        let handHistory = [];       
+        let cashEffects = [];       
+        let rawScoreArchive = []; // Meta-data storage object to preserve raw key values (P-score vs B-score)
         
         // Ledger Balances Variables
         let baseBet = 10;
@@ -238,20 +289,22 @@
         let grossWon = 0;
         let grossLost = 0;
 
+        // Score Input Sub-Engine Variables
+        let selectedPlayerScore = null;
+        let selectedBankerScore = null;
+
         // Strategy Engine States
         let index1326 = 0;               
         let martingaleMultiplier = 1;     
         let paroliMultiplier = 1; 
 
-        // DOM Handles
+        // DOM Element Handles
         const countPlayerEl = document.getElementById('count-player');
         const countBankerEl = document.getElementById('count-banker');
         const countTieEl = document.getElementById('count-tie');
         const countTotalEl = document.getElementById('count-total');
         const pctPlayerEl = document.getElementById('pct-player');
         const pctBankerEl = document.getElementById('pct-banker');
-        const barPlayerEl = document.getElementById('bar-player');
-        const barBankerEl = document.getElementById('bar-banker');
         const bigRoadEl = document.getElementById('big-road');
 
         // Form Handles
@@ -259,14 +312,93 @@
         const baseBetInput = document.getElementById('base-bet-input');
         const editableBankrollInput = document.getElementById('editable-bankroll-input');
         const suggestedBetDisplay = document.getElementById('suggested-bet-display');
+        const suggestedBetBadge = document.getElementById('suggested-bet-badge');
         const ledgerNet = document.getElementById('ledger-net');
         const ledgerWon = document.getElementById('ledger-won');
         const ledgerLost = document.getElementById('ledger-lost');
         const strategyStatusText = document.getElementById('strategy-status-text');
+        const historyLogFeed = document.getElementById('history-log-feed');
+        const emptyLogMsg = document.getElementById('empty-log-msg');
 
-        function onStrategyChange() {
-            recalculateEntireShoeHistory();
+        function toggleCollapse(elementId) {
+            const container = document.getElementById(elementId);
+            const icon = document.getElementById(`${elementId}-icon`);
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                icon.textContent = "▼";
+                if(elementId === 'collapse-big-road') renderBigRoad();
+            } else {
+                container.classList.add('hidden');
+                icon.textContent = "▲";
+            }
         }
+
+        function setScoreKey(side, val) {
+            if (side === 'P') {
+                selectedPlayerScore = val;
+                document.getElementById('form-p-val').textContent = val;
+                document.querySelectorAll('.score-p-btn').forEach((btn, i) => {
+                    btn.className = i === val ? "score-p-btn bg-blue-600 text-white font-black p-1 rounded text-xs" : "score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs";
+                });
+            } else {
+                selectedBankerScore = val;
+                document.getElementById('form-b-val').textContent = val;
+                document.querySelectorAll('.score-b-btn').forEach((btn, i) => {
+                    btn.className = i === val ? "score-b-btn bg-red-600 text-white font-black p-1 rounded text-xs" : "score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs";
+                });
+            }
+        }
+
+        function submitScoreCalculatedHand() {
+            if (selectedPlayerScore === null || selectedBankerScore === null) {
+                alert("Please select both Player and Banker scores.");
+                return;
+            }
+
+            let determinedToken = 'T';
+            const p = selectedPlayerScore;
+            const b = selectedBankerScore;
+
+            if (p > b) {
+                determinedToken = (p === 8 || p === 9) ? 'PN' : 'P';
+            } else if (b > p) {
+                determinedToken = (b === 8 || b === 9) ? 'BN' : 'B';
+            }
+
+            // Track detailed scores inside meta archive log
+            rawScoreArchive.push({ pScore: p, bScore: b });
+            recordRoadTrend(determinedToken);
+
+            // Reset UI
+            selectedPlayerScore = null;
+            selectedBankerScore = null;
+            document.getElementById('form-p-val').textContent = "-";
+            document.getElementById('form-b-val').textContent = "-";
+            document.querySelectorAll('.score-p-btn').forEach(b => b.className = "score-p-btn bg-gray-700 text-white font-bold p-1 rounded text-xs");
+            document.querySelectorAll('.score-b-btn').forEach(b => b.className = "score-b-btn bg-gray-700 text-white font-bold p-1 rounded text-xs");
+        }
+
+        function switchTab(targetTab) {
+            const trkBtn = document.getElementById('tab-tracker-btn');
+            const ledBtn = document.getElementById('tab-ledger-btn');
+            const trkView = document.getElementById('view-tracker');
+            const ledView = document.getElementById('view-ledger');
+
+            if (targetTab === 'tracker') {
+                trkView.classList.remove('hidden');
+                ledView.classList.add('hidden');
+                trkBtn.className = "w-1/2 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 border-yellow-500 text-yellow-500 transition-all";
+                ledBtn.className = "w-1/2 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-400 transition-all";
+                renderBigRoad(); 
+            } else {
+                trkView.classList.add('hidden');
+                ledView.classList.remove('hidden');
+                trkBtn.className = "w-1/2 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-400 transition-all";
+                ledBtn.className = "w-1/2 py-2.5 text-center text-xs font-bold uppercase tracking-wider border-b-2 border-yellow-500 text-yellow-500 transition-all";
+            }
+        }
+
+        function onStrategyChange() { recalculateEntireShoeHistory(); }
 
         function onBaseBetInput() {
             let val = parseInt(baseBetInput.value);
@@ -278,51 +410,43 @@
         function onBankrollDirectEdit() {
             let val = parseFloat(editableBankrollInput.value);
             if (isNaN(val)) val = 0;
-            
             let currentNetResult = 0;
             cashEffects.forEach(amt => currentNetResult += amt);
-            
             runningBankrollSnapshot = val - currentNetResult;
             updateMasterUI(false); 
         }
 
         function recordRoadTrend(outcome) {
             handHistory.push(outcome);
+            // If it was added manually via quick track, preserve formatting placeholders inside matching index
+            if(rawScoreArchive.length < handHistory.filter(x => x !== 'SO_W' && x !== 'SO_L').length) {
+                rawScoreArchive.push({ pScore: '?', bScore: '?' });
+            }
             updateMasterUI(true);
         }
 
-        // Updated helper logic: safely extracts the most recent trend outcome
         function getLastLoggedVisualTrend() {
             for (let i = handHistory.length - 1; i >= 0; i--) {
-                if (handHistory[i] !== 'SO_W' && handHistory[i] !== 'SO_L') {
-                    return handHistory[i];
-                }
+                if (handHistory[i] !== 'SO_W' && handHistory[i] !== 'SO_L') return handHistory[i];
             }
-            return null; // No trend entered yet
+            return null;
         }
 
-        // Strategy outcome engine execution logic with scaled win modifiers
         function recordStrategyOnlyOutcome(isWin) {
             const activeRecommendedBet = evaluateNextSuggestedBetSize();
             let outcomeProfitLoss = 0;
 
             if (isWin) {
                 const lastTrend = getLastLoggedVisualTrend();
-                if (lastTrend === 'B' || lastTrend === 'BN') {
-                    outcomeProfitLoss = 0.95 * activeRecommendedBet; // Banker Payout (Commission included)
-                } else if (lastTrend === 'T') {
-                    outcomeProfitLoss = 8 * activeRecommendedBet;    // Tie Payout (8:1 odds)
-                } else {
-                    outcomeProfitLoss = activeRecommendedBet;        // Player Payout or Default (1:1)
-                }
+                if (lastTrend === 'B' || lastTrend === 'BN') outcomeProfitLoss = 0.95 * activeRecommendedBet; 
+                else if (lastTrend === 'T') outcomeProfitLoss = 8 * activeRecommendedBet;    
+                else outcomeProfitLoss = activeRecommendedBet;        
             } else {
-                outcomeProfitLoss = -activeRecommendedBet;           // Loss deducts 100% of bet
+                outcomeProfitLoss = -activeRecommendedBet;           
             }
 
-            const outcomeToken = isWin ? 'SO_W' : 'SO_L'; 
-            handHistory.push(outcomeToken);
+            handHistory.push(isWin ? 'SO_W' : 'SO_L');
             cashEffects.push(outcomeProfitLoss);
-
             updateMasterUI(true);
         }
 
@@ -331,38 +455,28 @@
                 const undoneToken = handHistory.pop();
                 if (undoneToken === 'SO_W' || undoneToken === 'SO_L') {
                     cashEffects.pop();
+                } else {
+                    rawScoreArchive.pop();
                 }
                 recalculateEntireShoeHistory();
             }
         }
 
         function resetGameOnly() {
-            if (confirm("Clear active shoe matrix data, totals and trend logs? Ledger balance variables will be kept.")) {
+            if (confirm("Reset current active shoe tracking metrics?")) {
                 let activeShoeNet = 0;
                 cashEffects.forEach(amt => activeShoeNet += amt);
                 runningBankrollSnapshot = runningBankrollSnapshot + activeShoeNet;
-
-                handHistory = [];
-                cashEffects = [];
-                index1326 = 0;
-                martingaleMultiplier = 1;
-                paroliMultiplier = 1;
-                
+                handHistory = []; cashEffects = []; rawScoreArchive = []; index1326 = 0; martingaleMultiplier = 1; paroliMultiplier = 1;
                 recalculateEntireShoeHistory();
             }
         }
 
         function recalculateEntireShoeHistory() {
-            index1326 = 0;
-            martingaleMultiplier = 1;
-            paroliMultiplier = 1;
-
+            index1326 = 0; martingaleMultiplier = 1; paroliMultiplier = 1;
             const savedHandHistory = [...handHistory];
             const savedCashEffects = [...cashEffects];
-            
-            handHistory = [];
-            cashEffects = [];
-
+            handHistory = []; cashEffects = [];
             let financialPointer = 0;
 
             savedHandHistory.forEach(item => {
@@ -373,7 +487,6 @@
                 }
                 handHistory.push(item);
             });
-
             updateMasterUI(true);
         }
 
@@ -391,82 +504,42 @@
         function updateStrategyStateOnMatchResult(isWin) {
             const strategy = strategySelect.value;
             if (strategy === '1-3-2-6') {
-                if (isWin) {
-                    index1326 = (index1326 + 1) > 3 ? 0 : index1326 + 1;
-                } else {
-                    index1326 = 0;
-                }
-            } 
-            else if (strategy === 'martingale') {
+                index1326 = isWin ? ((index1326 + 1) > 3 ? 0 : index1326 + 1) : 0;
+            } else if (strategy === 'martingale') {
                 martingaleMultiplier = isWin ? 1 : martingaleMultiplier * 2;
-            } 
-            else if (strategy === 'paroli') {
-                if (isWin) {
-                    paroliMultiplier += 1; 
-                } else {
-                    paroliMultiplier = 1; 
-                }
+            } else if (strategy === 'paroli') {
+                paroliMultiplier = isWin ? paroliMultiplier + 1 : 1;
             }
         }
 
         function updateMasterUI(updateBankrollInputField = true) {
-            grossWon = 0;
-            grossLost = 0;
-            let netResult = 0;
-
+            grossWon = 0; grossLost = 0; let netResult = 0;
             cashEffects.forEach(amt => {
                 netResult += amt;
                 if (amt > 0) grossWon += amt;
                 if (amt < 0) grossLost += Math.abs(amt);
             });
 
-            // Round calculations clean to two decimal structures to handle commission floats neatly
             netResult = Math.round(netResult * 100) / 100;
             grossWon = Math.round(grossWon * 100) / 100;
             grossLost = Math.round(grossLost * 100) / 100;
-
-            let calculatedCurrentBankroll = Math.round((runningBankrollSnapshot + netResult) * 100) / 100;
-
-            if (updateBankrollInputField) {
-                editableBankrollInput.value = calculatedCurrentBankroll;
-            }
+            if (updateBankrollInputField) editableBankrollInput.value = Math.round((runningBankrollSnapshot + netResult) * 100) / 100;
             
             ledgerNet.textContent = `${netResult >= 0 ? '+' : ''}$${netResult}`;
-            ledgerWon.textContent = `$${grossWon}`;
-            ledgerLost.textContent = `$${grossLost}`;
+            ledgerWon.textContent = `$${grossWon}`; ledgerLost.textContent = `$${grossLost}`;
 
-            if (netResult > 0) ledgerNet.className = "text-xl font-bold text-emerald-400";
-            else if (netResult < 0) ledgerNet.className = "text-xl font-bold text-rose-500";
-            else ledgerNet.className = "text-xl font-bold text-gray-200";
+            if (netResult > 0) ledgerNet.className = "text-base font-bold text-emerald-400 mt-1";
+            else if (netResult < 0) ledgerNet.className = "text-base font-bold text-rose-500 mt-1";
+            else ledgerNet.className = "text-base font-bold text-gray-200 mt-1";
 
-            index1326 = 0;
-            martingaleMultiplier = 1;
-            paroliMultiplier = 1;
+            index1326 = 0; martingaleMultiplier = 1; paroliMultiplier = 1;
+            handHistory.forEach(item => { if (item === 'SO_W' || item === 'SO_L') updateStrategyStateOnMatchResult(item === 'SO_W'); });
             
-            handHistory.forEach(item => {
-                if (item === 'SO_W' || item === 'SO_L') {
-                    updateStrategyStateOnMatchResult(item === 'SO_W');
-                }
-            });
-            
-            suggestedBetDisplay.textContent = `$${evaluateNextSuggestedBetSize()}`;
+            const nextBetSize = evaluateNextSuggestedBetSize();
+            suggestedBetDisplay.textContent = `$${nextBetSize}`;
+            suggestedBetBadge.textContent = `$${nextBetSize}`;
 
-            const currentStrategyType = strategySelect.value;
-            if (currentStrategyType === 'flat') {
-                strategyStatusText.textContent = "Flat betting active. Target keeps pace with base unit.";
-            } else if (currentStrategyType === '1-3-2-6') {
-                strategyStatusText.textContent = `1-3-2-6 Active. Next multiplier level: x${[1, 3, 2, 6][index1326]}`;
-            } else if (currentStrategyType === 'martingale') {
-                strategyStatusText.textContent = `Martingale Active. Current recovery multiplier rate: x${martingaleMultiplier}`;
-            } else if (currentStrategyType === 'paroli') {
-                strategyStatusText.textContent = `Paroli (+1 Streak) Active. Current running multiplier: x${paroliMultiplier}`;
-            }
-
-            let playerWins = 0;
-            let bankerWins = 0;
-            let tieWins = 0;
-            let loggedHandsCount = 0;
-
+            let playerWins = 0; let bankerWins = 0; let tieWins = 0; let loggedHandsCount = 0;
             handHistory.forEach(hand => {
                 if (hand === 'P' || hand === 'PN') { playerWins++; loggedHandsCount++; }
                 else if (hand === 'B' || hand === 'BN') { bankerWins++; loggedHandsCount++; }
@@ -474,98 +547,111 @@
             });
 
             const decisionTotal = playerWins + bankerWins;
-            let playerPct = 0;
-            let bankerPct = 0;
-            if (decisionTotal > 0) {
-                playerPct = Math.round((playerWins / decisionTotal) * 100);
-                bankerPct = Math.round((bankerWins / decisionTotal) * 100);
-            }
+            let playerPct = decisionTotal > 0 ? Math.round((playerWins / decisionTotal) * 100) : 0;
+            let bankerPct = decisionTotal > 0 ? Math.round((bankerWins / decisionTotal) * 100) : 0;
 
-            countPlayerEl.textContent = playerWins;
-            countBankerEl.textContent = bankerWins;
-            countTieEl.textContent = tieWins;
-            countTotalEl.textContent = loggedHandsCount;
-
-            pctPlayerEl.textContent = `${playerPct}%`;
-            pctBankerEl.textContent = `${bankerPct}%`;
-            barPlayerEl.style.width = `${playerPct}%`;
-            barBankerEl.style.width = `${bankerPct}%`;
+            countPlayerEl.textContent = playerWins; countBankerEl.textContent = bankerWins;
+            countTieEl.textContent = tieWins; countTotalEl.textContent = loggedHandsCount;
+            pctPlayerEl.textContent = `${playerPct}%`; pctBankerEl.textContent = `${bankerPct}%`;
 
             renderBigRoad();
+            renderHistoryLogList();
+        }
+
+        // Renders previous played rounds with formatting values cleanly
+        function renderHistoryLogList() {
+            historyLogFeed.innerHTML = '';
+            let trendCounter = 0;
+            let logRowsAdded = 0;
+
+            for(let i = 0; i < handHistory.length; i++) {
+                const token = handHistory[i];
+                if(token === 'SO_W' || token === 'SO_L') continue;
+
+                const scoreMeta = rawScoreArchive[trendCounter] || { pScore: '?', bScore: '?' };
+                trendCounter++;
+                logRowsAdded++;
+
+                const rowDiv = document.createElement('div');
+                rowDiv.className = "flex justify-between items-center bg-gray-900/40 p-2 rounded border border-gray-700/40";
+
+                let identityLabel = "";
+                let colorClass = "text-gray-300";
+
+                if (token === 'P') { identityLabel = "Player Win"; colorClass = "text-blue-400 font-semibold"; }
+                else if (token === 'PN') { identityLabel = "Player Natural"; colorClass = "text-blue-400 font-bold tracking-wide"; }
+                else if (token === 'B') { identityLabel = "Banker Win"; colorClass = "text-red-400 font-semibold"; }
+                else if (token === 'BN') { identityLabel = "Banker Natural"; colorClass = "text-red-400 font-bold tracking-wide"; }
+                else if (token === 'T') { identityLabel = "Tie Round"; colorClass = "text-green-400 font-semibold"; }
+
+                // Check if a strategy wager was evaluated immediately after this trend round
+                let strategyEvaluationText = `<span class="text-gray-500 italic">No bet executed</span>`;
+                if(handHistory[i+1] === 'SO_W') {
+                    strategyEvaluationText = `<span class="text-emerald-400 font-bold">✓ System Win</span>`;
+                } else if(handHistory[i+1] === 'SO_L') {
+                    strategyEvaluationText = `<span class="text-rose-400 font-bold">✗ System Loss</span>`;
+                }
+
+                rowDiv.innerHTML = `
+                    <div>
+                        <span class="text-gray-500 font-mono text-[10px] mr-1.5">#${logRowsAdded}</span>
+                        <span class="${colorClass}">${identityLabel}</span>
+                        <span class="text-gray-400 font-mono ml-1">(${scoreMeta.pScore}-${scoreMeta.bScore})</span>
+                    </div>
+                    <div>${strategyEvaluationText}</div>
+                `;
+                historyLogFeed.insertBefore(rowDiv, historyLogFeed.firstChild);
+            }
+
+            if(logRowsAdded > 0) {
+                emptyLogMsg.classList.add('hidden');
+            } else {
+                emptyLogMsg.classList.remove('hidden');
+            }
         }
 
         function renderBigRoad() {
+            if(document.getElementById('collapse-big-road').classList.contains('hidden')) return;
             bigRoadEl.innerHTML = '';
-            let matrixColumns = [];
-            let currentColumn = [];
-            let lastActiveOutcome = null;
+            let matrixColumns = []; let currentColumn = []; let lastActiveOutcome = null;
 
             handHistory.forEach(hand => {
                 if (hand === 'SO_W' || hand === 'SO_L') return;
-
                 const isTie = (hand === 'T');
                 const identity = (hand === 'P' || hand === 'PN') ? 'P' : (hand === 'B' || hand === 'BN') ? 'B' : 'T';
 
                 if (isTie) {
-                    if (currentColumn.length < 6) {
-                        currentColumn.push(hand);
-                    } else {
-                        matrixColumns.push(currentColumn);
-                        currentColumn = [hand];
-                    }
+                    if (currentColumn.length < 6) currentColumn.push(hand);
+                    else { matrixColumns.push(currentColumn); currentColumn = [hand]; }
                 } else {
-                    if (lastActiveOutcome === null) {
-                        lastActiveOutcome = identity;
-                        currentColumn.push(hand);
-                    } else if (identity === lastActiveOutcome) {
-                        if (currentColumn.length < 6) {
-                            currentColumn.push(hand);
-                        } else {
-                            matrixColumns.push(currentColumn);
-                            currentColumn = [hand];
-                        }
-                    } else {
-                        matrixColumns.push(currentColumn);
-                        currentColumn = [hand];
-                        lastActiveOutcome = identity;
-                    }
+                    if (lastActiveOutcome === null) { lastActiveOutcome = identity; currentColumn.push(hand); }
+                    else if (identity === lastActiveOutcome) {
+                        if (currentColumn.length < 6) currentColumn.push(hand);
+                        else { matrixColumns.push(currentColumn); currentColumn = [hand]; }
+                    } else { matrixColumns.push(currentColumn); currentColumn = [hand]; lastActiveOutcome = identity; }
                 }
             });
 
             if (currentColumn.length > 0) matrixColumns.push(currentColumn);
-
-            const columnsToRender = Math.max(24, matrixColumns.length);
+            const columnsToRender = Math.max(16, matrixColumns.length);
 
             for (let c = 0; c < columnsToRender; c++) {
                 const colData = matrixColumns[c] || [];
                 for (let r = 0; r < 6; r++) {
                     const marker = document.createElement('div');
-                    marker.className = "w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold shadow-sm border border-transparent";
-
+                    marker.className = "w-[22px] h-[22px] rounded-full flex items-center justify-center text-[9px] font-black shadow-sm border border-transparent";
                     if (r < colData.length) {
                         const rawItem = colData[r];
-                        if (rawItem === 'P') {
-                            marker.className += " bg-blue-600 text-white border-blue-400";
-                            marker.textContent = "P";
-                        } else if (rawItem === 'PN') {
-                            marker.className += " bg-blue-500 text-yellow-300 border-yellow-400 border-2";
-                            marker.textContent = "P★";
-                        } else if (rawItem === 'B') {
-                            marker.className += " bg-red-600 text-white border-red-400";
-                            marker.textContent = "B";
-                        } else if (rawItem === 'BN') {
-                            marker.className += " bg-red-500 text-yellow-300 border-yellow-400 border-2";
-                            marker.textContent = "B★";
-                        } else if (rawItem === 'T') {
-                            marker.className += " bg-green-600 text-white border-green-400";
-                            marker.textContent = "T";
-                        }
-                    } else {
-                        marker.className += " bg-gray-800/40 border-dashed border-gray-700/60";
-                    }
+                        if (rawItem === 'P') { marker.className += " bg-blue-600 text-white border-blue-400"; marker.textContent = "P"; }
+                        else if (rawItem === 'PN') { marker.className += " bg-blue-500 text-yellow-300 border-yellow-400 border"; marker.textContent = "P★"; }
+                        else if (rawItem === 'B') { marker.className += " bg-red-600 text-white border-red-400"; marker.textContent = "B"; }
+                        else if (rawItem === 'BN') { marker.className += " bg-red-500 text-yellow-300 border-yellow-400 border"; marker.textContent = "B★"; }
+                        else if (rawItem === 'T') { marker.className += " bg-green-600 text-white border-green-400"; marker.textContent = "T"; }
+                    } else { marker.className += " bg-gray-800/40 border-dashed border-gray-700/50"; }
                     bigRoadEl.appendChild(marker);
                 }
             }
+            setTimeout(() => { bigRoadEl.parentElement.scrollLeft = bigRoadEl.parentElement.scrollWidth; }, 40);
         }
 
         updateMasterUI(true);
