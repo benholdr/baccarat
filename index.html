@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Baccarat Pro Mobile Tracker</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .custom-scrollbar::-webkit-scrollbar {
@@ -29,11 +28,10 @@
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col justify-between">
 
-    <!-- Mobile Header & Tab Navigation -->
     <header class="bg-gray-800 border-b border-gray-700 sticky top-0 z-50 shadow-md">
         <div class="p-3.5 flex justify-center items-center max-w-xl mx-auto">
             <h1 class="text-sm font-bold tracking-wider text-yellow-500 uppercase">
-                ♦️ Baccarat Ultimate Tracker
+                ♦️ Baccarat Super 6 Tracker
             </h1>
         </div>
         
@@ -47,26 +45,19 @@
         </div>
     </header>
 
-    <!-- Main Mobile Container -->
     <main class="max-w-xl mx-auto p-3 w-full flex-grow space-y-3 pb-8">
         
-        <!-- ================= VIEW 1: TRACKER & INPUTS ================= -->
         <div id="view-tracker" class="space-y-3">
             
-            <!-- Big Road Matrix Grid Panel -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-sm overflow-hidden">
                 <div class="p-3 bg-gray-800/80 border-b border-gray-700/50 flex justify-between items-center">
                     <h2 class="text-gray-400 text-[10px] font-semibold uppercase tracking-wider">Big Road Matrix & Telemetry</h2>
                 </div>
                 <div class="p-3 space-y-3">
-                    <!-- Horizontally Scrollable Matrix Container -->
                     <div class="overflow-x-auto custom-scrollbar pb-2">
-                        <!-- Upgraded to h-[260px] to beautifully fit 6 rows of 40px blocks -->
                         <div id="big-road" class="grid grid-rows-6 grid-flow-col gap-1.5 justify-start min-w-max h-[260px]">
-                            <!-- Populated by JavaScript -->
-                        </div>
+                            </div>
                     </div>
-                    <!-- Telemetry Live Stats Banner -->
                     <div class="bg-gray-900/60 p-2 rounded-lg border border-gray-700/80 flex justify-between items-center text-[11px] text-gray-400">
                         <div>P: <span id="count-player" class="text-blue-400 font-bold">0</span> (<span id="pct-player" class="text-blue-300 font-medium">0%</span>)</div>
                         <div>B: <span id="count-banker" class="text-red-400 font-bold">0</span> (<span id="pct-banker" class="text-red-300 font-medium">0%</span>)</div>
@@ -76,14 +67,12 @@
                 </div>
             </div>
 
-            <!-- Score Input Tracker & Strategy Panel -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden p-4 space-y-4">
                 <div class="flex justify-between items-center border-b border-gray-700/60 pb-2">
                     <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Hand Score Entry Desk</h3>
                     <span class="text-[11px] text-yellow-500 font-medium">Target Bet: <span id="suggested-bet-badge" class="font-bold underline">$10</span></span>
                 </div>
 
-                <!-- Display Big Large Preview Counters -->
                 <div class="grid grid-cols-2 gap-4 text-center">
                     <div class="bg-gray-900/60 p-2 rounded-lg border border-blue-900/40">
                         <span class="text-[10px] uppercase text-blue-400 block font-semibold">Player</span>
@@ -95,7 +84,6 @@
                     </div>
                 </div>
 
-                <!-- Touch Input Selectors -->
                 <div class="grid grid-cols-2 gap-4 text-center">
                     <div>
                         <span class="text-[9px] text-gray-400 block mb-1 font-bold uppercase tracking-wide">Assign Player</span>
@@ -130,7 +118,6 @@
                     </div>
                 </div>
 
-                <!-- Combined Modifiers Section (Checkboxes) -->
                 <div class="bg-gray-900/50 rounded-xl p-3 border border-gray-700 flex justify-around items-center">
                     <label class="inline-flex items-center space-x-2.5 cursor-pointer select-none">
                         <input type="checkbox" id="field-natural-checkbox" class="w-5 h-5 rounded text-yellow-500 bg-gray-700 border-gray-600 focus:ring-0 focus:ring-offset-0 accent-yellow-500" />
@@ -143,13 +130,11 @@
                     </label>
                 </div>
 
-                <!-- Process Commit Button -->
                 <button onclick="submitScoreCalculatedHand()" class="w-full bg-gradient-to-r from-yellow-600 to-amber-500 active:from-yellow-700 text-gray-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider shadow">
                     Process & Commit Hand Scores
                 </button>
             </div>
 
-            <!-- Shoe History Log Panel -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-md overflow-hidden p-3 space-y-2">
                 <h3 class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Shoe History Log</h3>
                 <div class="max-h-[200px] overflow-y-auto custom-scrollbar space-y-1.5 text-xs">
@@ -158,7 +143,6 @@
                 </div>
             </div>
 
-            <!-- Global Actions Grid Panel -->
             <div class="pt-1 flex flex-col space-y-2">
                 <div class="grid grid-cols-2 gap-3">
                     <button onclick="undoLastHand()" class="w-full bg-gray-700 hover:bg-gray-600 active:bg-gray-550 text-gray-200 font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider shadow border border-gray-600">
@@ -168,17 +152,14 @@
                         ⚠️ Reset Shoe
                     </button>
                 </div>
-                <!-- Data Export Control Component -->
                 <button onclick="exportShoeDataToCSV()" class="w-full bg-slate-800 hover:bg-slate-700 active:bg-slate-750 text-yellow-500 border border-slate-600 font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider shadow">
                     💾 Export Shoe CSV
                 </button>
             </div>
         </div>
 
-        <!-- ================= VIEW 2: STRATEGY & FINANCIALS ================= -->
         <div id="view-ledger" class="hidden space-y-3">
             
-            <!-- System Parameters Setup Block -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-sm overflow-hidden p-4 space-y-3">
                 <h2 class="text-gray-400 text-[10px] font-semibold uppercase tracking-wider">System Parameters</h2>
                 <div>
@@ -203,7 +184,6 @@
                 </div>
             </div>
 
-            <!-- Financial Performance Ledger Display Grid -->
             <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-sm overflow-hidden p-4 space-y-3">
                 <h2 class="text-gray-400 text-[10px] font-semibold uppercase tracking-wider">Financial Performance Ledger</h2>
                 <div class="grid grid-cols-2 gap-2">
@@ -287,6 +267,27 @@
             }
         }
 
+        function calculateHandPayout(pScore, bScore, isSystemWin, currentBetSize) {
+            if (!isSystemWin) return -currentBetSize;
+
+            // Tie round
+            if (pScore === bScore) return 8 * currentBetSize;
+            
+            // Player round win (Even money 1:1)
+            if (pScore > bScore) return currentBetSize;
+
+            // Banker round win
+            if (bScore > pScore) {
+                // Super 6 Rule: Banker winning value of 6 pays 50% commission (0.5:1 payout)
+                if (bScore === 6) {
+                    return 0.5 * currentBetSize;
+                }
+                // All other Banker wins pay 0% commission (Even money 1:1)
+                return currentBetSize;
+            }
+            return 0;
+        }
+
         function submitScoreCalculatedHand() {
             if (selectedPlayerScore === null || selectedBankerScore === null) {
                 alert("Please select both Player and Banker scores first.");
@@ -302,19 +303,11 @@
             let winnerToken = 'T';
             if (p > b) winnerToken = isNatural ? 'PN' : 'P';
             else if (b > p) winnerToken = isNatural ? 'BN' : 'B';
-            else if (isNatural) winnerToken = 'TN'; // Natural Tie if manually flagged
+            else if (isNatural) winnerToken = 'TN';
 
-            // Evaluate Financial Balance Additions/Deductions via Strategy
+            // Evaluate Financial Balance additions using Super 6 logic
             const currentBetSize = evaluateNextSuggestedBetSize();
-            let finalFinancialPayout = 0;
-
-            if (isSystemWin) {
-                if (winnerToken.startsWith('B')) finalFinancialPayout = 0.95 * currentBetSize; // Banker Comm Commission Factor
-                else if (winnerToken.startsWith('T')) finalFinancialPayout = 8 * currentBetSize;
-                else finalFinancialPayout = currentBetSize;
-            } else {
-                finalFinancialPayout = -currentBetSize;
-            }
+            const finalFinancialPayout = calculateHandPayout(p, b, isSystemWin, currentBetSize);
 
             // Commit to Local Histories
             rawScoreArchive.push({ pScore: p, bScore: b, naturalFlag: isNatural, strategyWin: isSystemWin });
@@ -324,7 +317,7 @@
             // Clean Slate Interface Controls
             selectedPlayerScore = null;
             selectedBankerScore = null;
-            naturalCheckbox.checked = false; // Reset modifier choices
+            naturalCheckbox.checked = false;
             document.getElementById('form-p-val').textContent = "-";
             document.getElementById('form-b-val').textContent = "-";
             document.querySelectorAll('.score-p-btn').forEach(b => b.className = "score-p-btn bg-gray-700 text-white font-bold p-1.5 rounded text-xs");
@@ -400,28 +393,18 @@
             handHistory = []; cashEffects = []; rawScoreArchive = [];
 
             savedRawArchive.forEach(item => {
-                // Re-run the calculations cleanly over step iteration sequences
                 let winnerToken = 'T';
                 if (item.pScore > item.bScore) winnerToken = item.naturalFlag ? 'PN' : 'P';
                 else if (item.bScore > item.pScore) winnerToken = item.naturalFlag ? 'BN' : 'B';
                 else if (item.naturalFlag) winnerToken = 'TN';
 
                 const currentBetSize = evaluateNextSuggestedBetSize();
-                let finalFinancialPayout = 0;
-
-                if (item.strategyWin) {
-                    if (winnerToken.startsWith('B')) finalFinancialPayout = 0.95 * currentBetSize;
-                    else if (winnerToken.startsWith('T')) finalFinancialPayout = 8 * currentBetSize;
-                    else finalFinancialPayout = currentBetSize;
-                } else {
-                    finalFinancialPayout = -currentBetSize;
-                }
+                const finalFinancialPayout = calculateHandPayout(item.pScore, item.bScore, item.strategyWin, currentBetSize);
 
                 rawScoreArchive.push(item);
                 handHistory.push(winnerToken);
                 cashEffects.push(finalFinancialPayout);
 
-                // Update pattern multipliers
                 updateStrategyStateOnMatchResult(item.strategyWin);
             });
 
@@ -471,7 +454,6 @@
             else if (netResult < 0) ledgerNet.className = "text-base font-bold text-rose-500 mt-1";
             else ledgerNet.className = "text-base font-bold text-gray-200 mt-1";
 
-            // Recalculate working suggestion states
             index1326 = 0; martingaleMultiplier = 1; paroliMultiplier = 1;
             rawScoreArchive.forEach(item => updateStrategyStateOnMatchResult(item.strategyWin));
             
@@ -479,7 +461,6 @@
             suggestedBetDisplay.textContent = `$${nextBetSize}`;
             suggestedBetBadge.textContent = `$${nextBetSize}`;
 
-            // Track telemetry balances
             let playerWins = 0; let bankerWins = 0; let tieWins = 0;
             handHistory.forEach(hand => {
                 if (hand.startsWith('P')) playerWins++;
@@ -517,6 +498,11 @@
                 else if (token.startsWith('B')) { identityLabel = data.naturalFlag ? "Banker Natural" : "Banker Win"; colorClass = "text-red-400 font-bold"; }
                 else if (token.startsWith('T')) { identityLabel = data.naturalFlag ? "Natural Tie" : "Tie Round"; colorClass = "text-green-400 font-bold"; }
 
+                // Add informational label for Super 6 variants
+                if (token.startsWith('B') && data.bScore === 6) {
+                    identityLabel += " (Super 6)";
+                }
+
                 let strategyEvaluationText = data.strategyWin ? 
                     `<span class="text-emerald-400 font-bold">✓ System Win</span>` : 
                     `<span class="text-rose-400 font-bold">✗ System Loss</span>`;
@@ -546,7 +532,6 @@
             let currentColumn = []; 
             let lastActiveOutcome = null;
 
-            // Map structural items into standard Big Road path columns
             for(let i = 0; i < handHistory.length; i++) {
                 const hand = handHistory[i];
                 const data = rawScoreArchive[i];
@@ -573,8 +558,6 @@
                 const colData = matrixColumns[c] || [];
                 for (let r = 0; r < 6; r++) {
                     const marker = document.createElement('div');
-                    
-                    // Massive tiles (40px x 40px) for ultra high clarity tracking visibility
                     marker.className = "w-[40px] h-[40px] rounded-full flex flex-col items-center justify-center text-[11px] font-black shadow-md border-2 border-transparent select-none transition-all leading-none";
                     
                     if (r < colData.length) {
@@ -588,16 +571,17 @@
                             marker.className += isNatural ? " bg-blue-500 text-yellow-300 border-yellow-400" : " bg-blue-600 text-white border-blue-400"; 
                         }
                         else if (rawItem.startsWith('B')) { 
-                            marker.className += isNatural ? " bg-red-500 text-yellow-300 border-yellow-400" : " bg-red-600 text-white border-red-400"; 
+                            // Add distinct gold border highlights if it is an exact Super 6 outcome
+                            marker.className += (bScore === 6) ? " bg-amber-700 text-yellow-300 border-yellow-400 border-2" : 
+                                                isNatural ? " bg-red-500 text-yellow-300 border-yellow-400" : " bg-red-600 text-white border-red-400"; 
                         }
                         else if (rawItem.startsWith('T')) { 
                             marker.className += isNatural ? " bg-green-500 text-yellow-300 border-yellow-400" : " bg-green-600 text-white border-green-400"; 
                         }
 
-                        // Explicitly display both numbers side-by-side inside the cell matrix
                         marker.innerHTML = `
                             <div class="tracking-tighter">${pScore}:${bScore}</div>
-                            ${isNatural ? '<div class="text-[7px] text-yellow-300 uppercase scale-90 mt-0.5 tracking-tight">NAT</div>' : ''}
+                            ${bScore === 6 && rawItem.startsWith('B') ? '<div class="text-[6px] text-yellow-400 uppercase scale-90 mt-0.5 font-bold">SUP6</div>' : isNatural ? '<div class="text-[7px] text-yellow-300 uppercase scale-90 mt-0.5 tracking-tight">NAT</div>' : ''}
                         `;
                     } else { 
                         marker.className += " bg-gray-800/40 border-dashed border-gray-700/40"; 
@@ -605,7 +589,6 @@
                     bigRoadEl.appendChild(marker);
                 }
             }
-            // Smart auto-scroll anchor shift to focus right margin
             setTimeout(() => { bigRoadEl.parentElement.scrollLeft = bigRoadEl.parentElement.scrollWidth; }, 40);
         }
 
@@ -615,10 +598,8 @@
                 return;
             }
 
-            // Define clean spreadsheet column headers
             let csvContent = "Round,Outcome,Player Score,Banker Score,Is Natural,System Result,Net Cash Effect\n";
 
-            // Process row entries sequentially
             for (let i = 0; i < handHistory.length; i++) {
                 const roundNum = i + 1;
                 const token = handHistory[i];
@@ -627,25 +608,22 @@
 
                 let baselineOutcome = "Tie";
                 if (token.startsWith('P')) baselineOutcome = "Player";
-                else if (token.startsWith('B')) baselineOutcome = "Banker";
+                else if (token.startsWith('B')) baselineOutcome = (data.bScore === 6) ? "Banker (Super 6)" : "Banker";
 
                 const naturalString = data.naturalFlag ? "TRUE" : "FALSE";
                 const systemString = data.strategyWin ? "WIN" : "LOSS";
 
-                // Standard comma delineation rows
                 csvContent += `${roundNum},${baselineOutcome},${data.pScore},${data.bScore},${naturalString},${systemString},${cashFlow}\n`;
             }
 
-            // Package contents dynamically as a text/csv data blob
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             
-            // Generate clean automated filename timestamp strings
             const fileTimestamp = new Date().toISOString().slice(0, 10);
             const downloadAnchor = document.createElement("a");
             
             downloadAnchor.setAttribute("href", url);
-            downloadAnchor.setAttribute("download", `Baccarat_Shoe_Export_${fileTimestamp}.csv`);
+            downloadAnchor.setAttribute("download", `Baccarat_Super6_Export_${fileTimestamp}.csv`);
             downloadAnchor.style.visibility = 'hidden';
             
             document.body.appendChild(downloadAnchor);
@@ -653,7 +631,6 @@
             document.body.removeChild(downloadAnchor);
         }
 
-        // Initialize UI display tracking matrix updates
         updateMasterUI(true);
     </script>
 </body>
